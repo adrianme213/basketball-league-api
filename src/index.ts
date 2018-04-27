@@ -6,7 +6,7 @@ const path = require('path');
 
 // Import routes
 const routes = require('./routes/routes.ts');
-const logTimeUrl = require('./middleware/index.ts');
+const {logTimeUrl, setHeaders} = require('./middleware/index.ts');
 
 // Connect .env Environment Variable
 require('dotenv').config({ path: path.join(__dirname, '../.env')});
@@ -14,6 +14,7 @@ require('dotenv').config({ path: path.join(__dirname, '../.env')});
 // Setup server
 const app = express();
 const port = process.env.PORT;
+app.use(setHeaders);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(logTimeUrl);

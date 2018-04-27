@@ -1,0 +1,19 @@
+{
+  "name": "basketball-league-api",
+  "version": "1.0.0",
+  "description": "Basketball league web app for adult league",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianme213/basketball-league-api.git"
+  },
+  "author": "Adrian Meza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adrianme213/basketball-league-api/issues"
+  },
+  "homepage": "https://github.com/adrianme213/basketball-league-api#readme"
+}

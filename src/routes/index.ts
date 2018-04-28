@@ -1,13 +1,12 @@
 const express = require('express');
 
-const {} = require('../controllers/index.ts');
-
+const { addTeamToDivision, getAllTeamsByDivision } = require('../controllers/index.ts');
+const { isLoggedIn } = require('../middleware/auth.ts');
 const router = express.Router();
 
-// // Authorization route for login
-// router.route('/users/auth')
-//   .post(authUser);
-router.route('/teams/signup')
-  .post()
+// Routes
+router.route('/teams')
+  .get(getAllTeamsByDivision)
+  .post(isLoggedIn, addTeamToDivision);
 
 module.exports = router;

@@ -1,4 +1,10 @@
 const mysql = require('mysql');
+const path = require('path');
+
+// If .env is not loaded, load for config options
+if (!process.env.DB_PASSWORD) {
+  require('dotenv').config({ path: path.join(__dirname, '../../.env')});
+}
 
 // Create a database connection and export it from this file.
 const connection = mysql.createConnection({

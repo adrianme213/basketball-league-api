@@ -1,3 +1,5 @@
+const { isLoggedIn } = require('./auth.ts');
+
 const logTimeUrl = (req, res, next) => {
   if (req.url !== `/favicon.ico`) {
     const date = new Date(Date.now());
@@ -33,6 +35,10 @@ const setHeaders = (req, res, next) => {
 //   proxy: true,
 // });
 
-
+module.exports = {
+  isLoggedIn,
+  logTimeUrl,
+  setHeaders
+}
 exports.logTimeUrl = logTimeUrl;
 exports.setHeaders = setHeaders;

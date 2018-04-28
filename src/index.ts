@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 // Import routes
-const routes = require('./routes/routes.ts');
+const routes = require('./routes/index.ts');
 const {logTimeUrl, setHeaders} = require('./middleware/index.ts');
 
 // Connect .env Environment Variable

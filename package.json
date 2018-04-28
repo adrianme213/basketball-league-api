@@ -4,8 +4,9 @@
   "description": "Basketball league web app for adult league",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/index.ts",
-    "rest-server": "nodemon src/index.ts"
+    "clear-db": "mysql -u root -p < src/db/schema.sql",
+    "rest-server": "nodemon src/index.ts",
+    "test": "mocha test/index.ts"
   },
   "repository": {
     "type": "git",

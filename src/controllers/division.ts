@@ -41,11 +41,15 @@ const getSpecificDivision = (req, res) => {
   if (name === undefined || idSeason === undefined) {
     res.status(400).json('Name and season id required. Try again.');
   } else {
-    const queryStr = `SELECT name, description FROM divisions WHERE name='${name}' AND idSeason=${idSeason};`;
-    db.query(queryStr, (err, results, fields) => {
-      if (err) { throw err; }
-      res.status(200).json(results);
-    });
+    if (/^[0-9]+$/.test(idSeason) && typeof name === 'string') {
+      const queryStr = `SELECT name, description FROM divisions WHERE name='${name}' AND idSeason=${idSeason};`;
+      db.query(queryStr, (err, results, fields) => {
+        if (err) { throw err; }
+        res.status(200).json(results);
+      });
+    } else {
+      res.status(400).json('Name must be string and idSeason a number. Try again.');
+    }
   }
 }
 

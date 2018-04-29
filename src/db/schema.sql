@@ -7,7 +7,7 @@ USE basketball_league;
 DROP TABLE IF EXISTS `seasons`;
 CREATE TABLE `seasons` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `yearMonthStartDate` VARCHAR(7) NOT NULL,
+  `monthYearStartDate` VARCHAR(7) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 );
 DROP TABLE IF EXISTS `divisions`;

@@ -2,6 +2,7 @@ const express = require('express');
 
 const {
   addSeason, getSeasonNames, getSpecificSeason,
+  addDivision, getDivisions, getSpecificDivision,
   addTeamToDivision, getAllTeamsByDivision
 } = require('../controllers/index.ts');
 
@@ -14,7 +15,14 @@ router.route('/seasons')
   .get(getSeasonNames)
   .post(isLoggedIn, addSeason);
 router.route('/one-season')
-  .get(getSpecificSeason)
+  .get(getSpecificSeason);
+
+  // Divisions
+  router.route('/divisions')
+    .get(getDivisions)
+    .post(isLoggedIn, addDivision);
+  router.route('/one-division')
+    .get(getSpecificDivision);
 
 // Teams
 router.route('/teams')

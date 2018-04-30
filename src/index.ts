@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const http = require('http');
 
 // Import routes
 const router = require('./routes/index.ts');
@@ -22,8 +23,10 @@ app.use(logTimeUrl);
 // Static files
 app.use(express.static(path.join(__dirname, '../../basketball-league-ui/src/index.html')));
 app.use('/api', router);
-app.get('/', (req, res) => res.send('Hello World!'))
-app.get('/*', (req, res) => res.status(404).send('This page does not exist'));
+app.get('/', (req, res) => res.json('Hello World!'))
+app.get('/*', (req, res) => res.status(404).json('This page does not exist'));
 
-// Turn on server
-app.listen(port, () => console.log(`Example app on Port: ${port}`));
+// Create server and turn on server
+const server = http.createServer(app);
+server.listen(port, () => console.log(`Example app on Port: ${port}`));
+module.exports = server;

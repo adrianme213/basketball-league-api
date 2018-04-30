@@ -86,30 +86,17 @@ CREATE TABLE `players` (
   PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `gamesss`;
-CREATE TABLE `gamesss` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `date` DATE NOT NULL,
-  `time` VARCHAR(100) NOT NULL,
-  `awayTeam` VARCHAR(255),
-  `homeTeam` VARCHAR(255),
-  `location` VARCHAR(100) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
 /*
-INSERT THREE DUMMY VALUES
+INSERT DUMMY VALUES
 */
-INSERT INTO gamesss (id, date, time, awayTeam, homeTeam, location)
-VALUES (1, '20180403', '1030 pm', 'San Antonio Spurs', 'Los Angeles Clippers',
-'Staples Center, Los Angeles, CA');
-
-INSERT INTO gamesss (id, date, time, awayTeam, homeTeam, location)
-VALUES (2, '20180403', '700 pm', 'Washington Wizards', 'Houston Rockets',
-'Toyota Center, Houston, TX');
-
-INSERT INTO gamesss (id, date, time, awayTeam, homeTeam, location)
-VALUES (3, '20180403', '800 pm', 'Boston Celtics', 'Milwaukee Bucks',
-'BMO Bradley Center, Milwaukee, WI');
+INSERT INTO seasons (monthYearStartDate) VALUES ('01/2017');
+INSERT INTO seasons (monthYearStartDate) VALUES ('04/2017');
+INSERT INTO divisions (name, description, idSeason)
+  VALUES ('Division 1', 'Top division', 1);
+INSERT INTO divisions (name, description, idSeason)
+  VALUES ('Division 2', 'Second-tier division', 1);
+INSERT INTO divisions (name, description, idSeason)
+  VALUES ('Division 3', 'Casual division', 1);
 
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql

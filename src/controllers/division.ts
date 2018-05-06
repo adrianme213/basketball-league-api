@@ -48,7 +48,7 @@ const getSpecificDivision = (req, res) => {
         res.status(200).json(results);
       });
     } else {
-      res.status(400).json('Name must be string and idSeason a number. Try again.');
+      res.status(400).json('Name must be string and season id a number. Try again.');
     }
   }
 }

@@ -97,7 +97,12 @@ INSERT INTO divisions (name, description, idSeason)
   VALUES ('Division 2', 'Second-tier division', 1);
 INSERT INTO divisions (name, description, idSeason)
   VALUES ('Division 3', 'Casual division', 1);
-
+INSERT INTO teams (name, totalWins, totalLosses, idDivision)
+  VALUES ('Ballers1', 0, 0, 1);
+INSERT INTO teams (name, totalWins, totalLosses, idDivision)
+  VALUES ('Ballers2', 0, 0, 1);
+INSERT INTO teams (name, totalWins, totalLosses, idDivision)
+  VALUES ('Ballers3', 0, 0, 1);
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
  *  to create the database and the tables.*/

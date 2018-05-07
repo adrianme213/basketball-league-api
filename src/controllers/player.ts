@@ -4,9 +4,9 @@ const addPlayer = (req, res) => {
   const {name, number, position, height, teamName} = req.body;
   const twoDigitsRegex = /^[0-9]?[0-9]$/;
   const positionsRegex = /^PF|C|SG|PG|SF$/i;
-  if (typeof name === 'string' && name.length < 100 &&
+  if (typeof name === `string` && name.length < 100 &&
   positionsRegex.test(position) && twoDigitsRegex.test(height) &&
-  twoDigitsRegex.test(number) && typeof teamName === 'string') {
+  twoDigitsRegex.test(number) && typeof teamName === `string`) {
     const queryStrTeam = `SELECT id FROM teams WHERE name='${teamName}';`;
     db.query(queryStrTeam, (err, results, field) => {
       if (err) { throw err; }
@@ -14,7 +14,8 @@ const addPlayer = (req, res) => {
         res.status(400).json(`Team name not in database. Try again.`);
       } else {
         const idTeam = results[0].id;
-        const queryStrInsert = `SELECT name FROM players WHERE name='${name}' AND idTeam=${idTeam}`;
+        const queryStrInsert = `SELECT name FROM players WHERE name='${name}' AND
+          idTeam=${idTeam};`;
         db.query(queryStrInsert, (err, results, fields) => {
           if (err) { throw err; }
           if (results.length === 0) {
@@ -28,54 +29,100 @@ const addPlayer = (req, res) => {
               res.status(201).json(`Post player ${name} successful to ${teamName}.`);
             });
           } else {
-            res.status(400).json('Player with that name already on this team. Try again.');
+            res.status(400).json(`Player with that name already on this team. Try again.`);
           }
         });
       }
     });
   } else {
-    const message = `Name length must be less than 100. Number and height must be
-      two digits or less. Position must be one of C,PF,SF,SG,PG only. Teamname
-      must be string. Try again.`;
+    const message = `Name length must be less than 100. Number and height must be two digits or less. Position must be one of C,PF,SF,SG,PG only. Team name must be string. Try again.`;
     res.status(400).json(message);
   }
 }
 
-const getPlayersForTeam = (req, res) => {
-  // NOT WORKING YET
-  const { idDivision } = req.query;
-  if (idDivision === undefined) {
-    res.status(400).json('Division id required. Try again.');
+const getPlayersByTeam = (req, res) => {
+  const { teamName, divisionName } = req.query;
+  if (typeof divisionName === `string`) {
+    const queryStrDivision = `SELECT id AS 'idDivision' FROM divisions WHERE name='${divisionName}';`;
+    db.query(queryStrDivision, (err, results, fields) => {
+      if (err) { throw err; }
+      if (results.length === 0) {
+        res.status(400).json(`Division name is not in database. Try again.`);
+      } else {
+        const { idDivision } = results[0];
+        if (typeof teamName === `string`) {
+          const queryStrTeam = `SELECT id AS 'idTeam' FROM teams WHERE name='${teamName}'
+            AND idDivision=${idDivision};`;
+          db.query(queryStrTeam, (err, results, field) => {
+            if (err) { throw err; }
+            if (results.length === 0) {
+              res.status(400).json(`Team name not in database`);
+            } else {
+              const { idTeam } = results[0];
+              const queryStrPlayers = `SELECT players.name, number, position, height,
+              twoPointMade, twoPointAttempted, threePointMade, threePointAttempted,
+              freeThrowMade, freeThrowAttempted, rebounds, steals, blocks, assists,
+              gamesPlayed, turnovers FROM players JOIN teams ON players.idTeam=teams.id
+              JOIN divisions ON teams.idDivision=divisions.id WHERE teams.id=${idTeam}
+              AND divisions.id=${idDivision}`;
+              db.query(queryStrPlayers, (err, results, fields) => {
+                if (err) { throw err; }
+                res.status(200).json(results);
+              });
+            }
+          });
+        } else {
+          res.status(400).json(`Team name must be a string. Try again.`);
+        }
+      }
+    });
   } else {
-    if (/^[0-9]+$/.test(idDivision)) {
-      const queryStr = `SELECT name, totalWins, totalLosses FROM teams WHERE idDivision=${idDivision};`;
-      db.query(queryStr, (err, results, fields) => {
-        if (err) { throw err; }
-        res.status(200).json(results);
-      });
-    } else {
-      res.status(400).json('Division id must be a number. Try again.');
-    }
-
+    res.status(400).json(`Division name must be a string. Try again.`);
   }
 }
 
-const getPlayersForDivision = (req, res) => {
-  // NOT WORKING YET
-  const { idDivision } = req.query;
-  if (idDivision === undefined) {
-    res.status(400).json('Division id required. Try again.');
-  } else {
-    if (/^[0-9]+$/.test(idDivision)) {
-      const queryStr = `SELECT name, totalWins, totalLosses FROM teams WHERE idDivision=${idDivision};`;
-      db.query(queryStr, (err, results, fields) => {
-        if (err) { throw err; }
-        res.status(200).json(results);
-      });
-    } else {
-      res.status(400).json('Division id must be a number. Try again.');
-    }
+/* DOES SAME AS ABOVE */
+// const getPlayersByTeam = (req, res) => {
+//   const { teamName, divisionName } = req.query;
+//   if (typeof divisionName === `string` && typeof teamName === `string`) {
+//     const queryStr = `SELECT players.name, number, position, height,
+//     twoPointMade, twoPointAttempted, threePointMade, threePointAttempted,
+//     freeThrowMade, freeThrowAttempted, rebounds, steals, blocks, assists,
+//     gamesPlayed, turnovers FROM players JOIN teams ON players.idTeam=teams.id
+//     JOIN divisions ON teams.idDivision=divisions.id WHERE teams.name='${teamName}'
+//     AND divisions.name='${divisionName}'`;
+//     db.query(queryStr, (err, results, fields) => {
+//       if (err) { throw err; }
+//       res.status(200).json(results);
+//     });
+//   } else {
+//     res.status(400).json(`Division name and team name must be a string. Try again.`);
+//   }
+// }
 
+const getPlayersByDivision= (req, res) => {
+  const { divisionName } = req.query;
+  if (typeof divisionName === `string`) {
+    const queryStrDivision = `SELECT id AS 'idDivision' FROM divisions WHERE name='${divisionName}'`;
+    db.query(queryStrDivision, (err, results, field) => {
+      if (err) { throw err; }
+      if (results.length === 0) {
+        res.status(400).json(`Division name not in database`);
+      } else {
+        const { idDivision } = results[0];
+        const queryStrPlayers = `SELECT players.name, number, position, height,
+          twoPointMade, twoPointAttempted, threePointMade, threePointAttempted,
+          freeThrowMade, freeThrowAttempted, rebounds, steals, blocks, assists,
+          gamesPlayed, turnovers FROM players JOIN teams ON players.idTeam=teams.id
+          JOIN divisions ON teams.idDivision=divisions.id WHERE divisions.id=${idDivision}`;
+        db.query(queryStrPlayers, (err, results, fields) => {
+          if (err) { throw err; }
+          res.status(200).json(results)
+        });
+      }
+    });
+  } else {
+    res.status(400).json(`Team name must be a string. Try again.`);
   }
 }
 
@@ -127,8 +174,8 @@ const updateSpecificPlayer = (req, res) => {
 
 module.exports = {
   addPlayer,
-  getPlayersForDivision,
-  getPlayersForTeam,
+  getPlayersByDivision,
+  getPlayersByTeam,
   getSpecificPlayer,
   updateSpecificPlayer
 };

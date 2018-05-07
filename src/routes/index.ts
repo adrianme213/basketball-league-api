@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {
-  addPlayer, getPlayersForDivision, getPlayersForTeam, getSpecificPlayer, updateSpecificPlayer,
+  addPlayer, getPlayersByDivision, getPlayersByTeam, getSpecificPlayer, updateSpecificPlayer,
   addTeam, getTeamsByDivision, getSpecificTeam, updateSpecificTeam,
   addDivision, getDivisions, getSpecificDivision,
   addSeason, getSeasonNames, getSpecificSeason
@@ -15,10 +15,10 @@ router.route('/player')
   .get(getSpecificPlayer)
   .put(updateSpecificPlayer);
 router.route('/players-by-team')
-  .get(getPlayersForTeam)
+  .get(getPlayersByTeam)
   .post(isLoggedIn, addPlayer);
 router.route('/players-by-division')
-  .get(updateSpecificTeam);
+  .get(getPlayersByDivision);
 
 // Teams
 router.route('/teams-by-division')
@@ -30,10 +30,10 @@ router.route('/team')
 
 // Divisions
 router.route('/divisions-by-season')
-  .get(getDivisions)
+  .get(getSpecificDivision)
   .post(isLoggedIn, addDivision);
-router.route('/division')
-  .get(getSpecificDivision);
+router.route('/divisions')
+  .get(getDivisions);
 
 // Seasons
 router.route('/all-seasons')

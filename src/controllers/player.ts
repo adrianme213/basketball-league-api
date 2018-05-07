@@ -64,7 +64,7 @@ const getPlayersByTeam = (req, res) => {
               freeThrowMade, freeThrowAttempted, rebounds, steals, blocks, assists,
               gamesPlayed, turnovers FROM players JOIN teams ON players.idTeam=teams.id
               JOIN divisions ON teams.idDivision=divisions.id WHERE teams.id=${idTeam}
-              AND divisions.id=${idDivision}`;
+              AND divisions.id=${idDivision};`;
               db.query(queryStrPlayers, (err, results, fields) => {
                 if (err) { throw err; }
                 res.status(200).json(results);
@@ -103,7 +103,7 @@ const getPlayersByTeam = (req, res) => {
 const getPlayersByDivision= (req, res) => {
   const { divisionName } = req.query;
   if (typeof divisionName === `string`) {
-    const queryStrDivision = `SELECT id AS 'idDivision' FROM divisions WHERE name='${divisionName}'`;
+    const queryStrDivision = `SELECT id AS 'idDivision' FROM divisions WHERE name='${divisionName}';`;
     db.query(queryStrDivision, (err, results, field) => {
       if (err) { throw err; }
       if (results.length === 0) {
@@ -114,7 +114,7 @@ const getPlayersByDivision= (req, res) => {
           twoPointMade, twoPointAttempted, threePointMade, threePointAttempted,
           freeThrowMade, freeThrowAttempted, rebounds, steals, blocks, assists,
           gamesPlayed, turnovers FROM players JOIN teams ON players.idTeam=teams.id
-          JOIN divisions ON teams.idDivision=divisions.id WHERE divisions.id=${idDivision}`;
+          JOIN divisions ON teams.idDivision=divisions.id WHERE divisions.id=${idDivision};`;
         db.query(queryStrPlayers, (err, results, fields) => {
           if (err) { throw err; }
           res.status(200).json(results)
@@ -127,20 +127,20 @@ const getPlayersByDivision= (req, res) => {
 }
 
 const getSpecificPlayer = (req, res) => {
-  // NOT WORKING YET
-  const { name, idDivision } = req.query;
-  if (name === undefined || idDivision === undefined) {
-    res.status(400).json('Name and division id required. Try again.');
+  const { name, teamName, divisionName } = req.query;
+  if (typeof name === `string` && typeof teamName === `string` && typeof divisionName === `string`) {
+    const queryStr = `SELECT players.name, number, position, height,
+      twoPointMade, twoPointAttempted, threePointMade, threePointAttempted,
+      freeThrowMade, freeThrowAttempted, rebounds, steals, blocks, assists,
+      gamesPlayed, turnovers FROM players JOIN teams ON players.idTeam=teams.id
+      JOIN divisions ON teams.idDivision=divisions.id WHERE players.name='${name}' AND
+      teams.name='${teamName}' AND divisions.name='${divisionName}';`;
+    db.query(queryStr, (err, results, fields) => {
+      if (err) { throw err; }
+      res.status(200).json(results);
+    });
   } else {
-    if (/^[0-9]+$/.test(idDivision) && typeof name === 'string') {
-      const queryStr = `SELECT name, totalWins, totalLosses FROM teams WHERE name='${name}' AND idDivision=${idDivision};`;
-      db.query(queryStr, (err, results, fields) => {
-        if (err) { throw err; }
-        res.status(200).json(results);
-      });
-    } else {
-      res.status(400).json('Name must be string and division id a number. Try again.');
-    }
+    res.status(400).json('Player name, team name, and division name must all be strings. Try again.');
   }
 }
 

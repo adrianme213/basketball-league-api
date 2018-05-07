@@ -25,7 +25,7 @@ CREATE TABLE `divisions` (
 DROP TABLE IF EXISTS `teams`;
 CREATE TABLE `teams` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(100) NOT NULL UNIQUE,
+  `name` VARCHAR(100) NOT NULL,
   `totalWins` INTEGER NOT NULL,
   `totalLosses` INTEGER NOT NULL,
   `idDivision` INTEGER NOT NULL,
@@ -63,9 +63,9 @@ DROP TABLE IF EXISTS `players`;
 CREATE TABLE `players` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
-  `number` INTEGER,
-  `position` VARCHAR(3),
-  `height` INTEGER,
+  `number` VARCHAR(2),
+  `position` VARCHAR(2),
+  `height` VARCHAR(2),
   `twoPointMade` INTEGER,
   `twoPointAttempted` INTEGER,
   `threePointMade` INTEGER,
@@ -103,6 +103,42 @@ INSERT INTO teams (name, totalWins, totalLosses, idDivision)
   VALUES ('Ballers2', 0, 0, 1);
 INSERT INTO teams (name, totalWins, totalLosses, idDivision)
   VALUES ('Ballers3', 0, 0, 1);
+INSERT INTO teams (name, totalWins, totalLosses, idDivision)
+  VALUES ('Ballers1', 0, 0, 2);
+INSERT INTO teams (name, totalWins, totalLosses, idDivision)
+  VALUES ('Ballers1', 0, 0, 3);
+INSERT INTO players (name, number, position, height, twoPointMade, twoPointAttempted,
+  threePointMade, threePointAttempted, freeThrowMade, freeThrowAttempted, rebounds,
+  steals, blocks, assists, gamesPlayed, turnovers, idTeam)
+  VALUES ('LaMarcus Aldridge', '12', 'PF', '83', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+INSERT INTO players (name, number, position, height, twoPointMade, twoPointAttempted,
+  threePointMade, threePointAttempted, freeThrowMade, freeThrowAttempted, rebounds,
+  steals, blocks, assists, gamesPlayed, turnovers, idTeam)
+  VALUES ('Kawhi Leonard', '2', 'SF', '79', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+INSERT INTO players (name, number, position, height, twoPointMade, twoPointAttempted,
+  threePointMade, threePointAttempted, freeThrowMade, freeThrowAttempted, rebounds,
+  steals, blocks, assists, gamesPlayed, turnovers, idTeam)
+  VALUES ('Danny Green', '14', 'SG', '78', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+INSERT INTO players (name, number, position, height, twoPointMade, twoPointAttempted,
+  threePointMade, threePointAttempted, freeThrowMade, freeThrowAttempted, rebounds,
+  steals, blocks, assists, gamesPlayed, turnovers, idTeam)
+  VALUES ('Dejounte Murray', '5', 'PG', '77', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+INSERT INTO players (name, number, position, height, twoPointMade, twoPointAttempted,
+  threePointMade, threePointAttempted, freeThrowMade, freeThrowAttempted, rebounds,
+  steals, blocks, assists, gamesPlayed, turnovers, idTeam)
+  VALUES ('Rudy Gay', '22', 'SF', '80', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+INSERT INTO players (name, number, position, height, twoPointMade, twoPointAttempted,
+  threePointMade, threePointAttempted, freeThrowMade, freeThrowAttempted, rebounds,
+  steals, blocks, assists, gamesPlayed, turnovers, idTeam)
+  VALUES ('Adrian Meza', '22', 'SF', '80', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+INSERT INTO players (name, number, position, height, twoPointMade, twoPointAttempted,
+  threePointMade, threePointAttempted, freeThrowMade, freeThrowAttempted, rebounds,
+  steals, blocks, assists, gamesPlayed, turnovers, idTeam)
+  VALUES ('Player Div2', '22', 'SF', '80', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+INSERT INTO players (name, number, position, height, twoPointMade, twoPointAttempted,
+  threePointMade, threePointAttempted, freeThrowMade, freeThrowAttempted, rebounds,
+  steals, blocks, assists, gamesPlayed, turnovers, idTeam)
+  VALUES ('Player Div3', '22', 'SF', '80', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5);
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
  *  to create the database and the tables.*/

@@ -1,9 +1,11 @@
-const { addSeason, getSeasonNames, getSpecificSeason } = require('./season.ts');
-const { addDivision, getDivisions, getSpecificDivision } = require('./division.ts');
+const { addPlayer, getPlayersByDivision, getPlayersByTeam, getSpecificPlayer, updateSpecificPlayer } = require('./player.ts');
 const { addTeam, getTeamsByDivision, getSpecificTeam, updateSpecificTeam } = require('./team.ts');
+const { addDivision, getDivisions, getSpecificDivision } = require('./division.ts');
+const { addSeason, getSeasonNames, getSpecificSeason } = require('./season.ts');
 
 module.exports = {
-  addSeason, getSeasonNames, getSpecificSeason,
+  addPlayer, getPlayersByDivision, getPlayersByTeam, getSpecificPlayer, updateSpecificPlayer,
+  addTeam, getTeamsByDivision, getSpecificTeam, updateSpecificTeam,
   addDivision, getDivisions, getSpecificDivision,
-  addTeam, getTeamsByDivision, getSpecificTeam, updateSpecificTeam
+  addSeason, getSeasonNames, getSpecificSeason
 }
